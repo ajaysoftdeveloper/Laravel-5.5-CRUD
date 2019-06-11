@@ -34,6 +34,7 @@ class MemberController extends Controller
     {
         request()->validate([
             'name' => 'required',
+            'phone' => 'required',
             'email' => 'required',
         ]);
         Member::create($request->all());
@@ -74,6 +75,7 @@ class MemberController extends Controller
     {
         request()->validate([
             'name' => 'required',
+            'mail' => 'required',
             'email' => 'required',
         ]);
         $member->update($request->all());

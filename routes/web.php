@@ -16,7 +16,3 @@ Route::get('/', function () {
 });
 
 Route::resource('members','MemberController');
-
-Route::get('hello', function () {
-    return 'hello, world';
-});

@@ -19,13 +19,15 @@
         <tr>
             <th>No</th>
             <th>Name</th>
+            <th>Phone</th>
             <th>Email</th>
             <th width="280px">Operation</th>
         </tr>
     @foreach ($members as $member)
     <tr>
         <td>{{ ++$i }}</td>
-        <td>{{ $member->name}}</td>
+        <td>{{ $member->name}}</td>        
+        <td>{{ $member->phone}}</td>
         <td>{{ $member->email}}</td>
         <td>
             <a class="btn btn-info" href="{{ route('members.show',$member->id) }}">Show</a>
