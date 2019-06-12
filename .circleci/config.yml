@@ -1,0 +1,35 @@
+# PHP CircleCI 2.0 configuration file
+#
+# Check https://circleci.com/docs/2.0/language-php/ for more details
+#
+version: 2
+jobs:
+  build:
+    docker:
+      - image: circleci/php:7.1-node-browsers
+
+    working_directory: ~/repo
+
+    steps:
+      - checkout
+      - run: composer global require "squizlabs/php_codesniffer=*"
+      - run: git clone https://github.com/wataridori/framgia-php-codesniffer.git ~/.composer/vendor/squizlabs/php_codesniffer/src/Standards/Framgia
+      # Download and cache dependencies
+      - restore_cache:
+          keys:
+          - v1-dependencies-{{ checksum "composer.json" }}
+          # fallback to using the latest cache if no exact match is found
+          - v1-dependencies-
+
+      - run: composer install -n --prefer-dist
+
+      - save_cache:
+          paths:
+            - ./vendor
+          key: v1-dependencies-{{ checksum "composer.json" }}
+        
+      # run tests!
+      - run: sudo ~/.composer/vendor/bin/phpcs --ignore=vendor,bootstrap/cache/,storage,database,*.js,*.css,public/index.php,*.blade.php --standard=Framgia ./
+      - run: php -r "file_exists('.env') || copy('.env.example', '.env');"
+      - run: php artisan key:generate
+      - run: vendor/bin/phpunit
