@@ -15,4 +15,4 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::resource('members','MemberController');
+Route::resource('members', 'MemberController');
